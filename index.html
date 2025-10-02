@@ -4,8 +4,144 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tania Rolando</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        
+        .sparkles {
+            position: absolute;
+            font-size: 1.2rem;
+            opacity: 0.7;
+            animation: twinkle 2s infinite;
+        }
+        
+        .sparkle1 { top: 15%; left: 20%; animation-delay: 0s; }
+        .sparkle2 { top: 20%; right: 25%; animation-delay: 0.7s; }
+        .sparkle3 { bottom: 25%; left: 15%; animation-delay: 1.4s; }
+        .sparkle4 { bottom: 20%; right: 20%; animation-delay: 2.1s; }
+        
+        .container {
+            text-align: center;
+            animation: fadeIn 1.2s ease-out;
+            background: white;
+            padding: 80px 100px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            position: relative;
+        }
+        
+        .icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 300;
+            color: #1e3c72;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            color: #2a5298;
+            font-weight: 400;
+            margin-top: 10px;
+            letter-spacing: 1px;
+        }
+        
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #1e3c72, #2a5298);
+            margin: 25px auto;
+            border-radius: 2px;
+        }
+        
+        .accent {
+            font-size: 1.3rem;
+            margin-top: 20px;
+            color: #5a7fb8;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.3;
+                transform: scale(1.2);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 60px 40px;
+            }
+            
+            h1 {
+                font-size: 2.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+            }
+            
+            .icon {
+                font-size: 2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Tania Rolando</h1>
+    <div class="sparkles sparkle1">✨</div>
+    <div class="sparkles sparkle2">⭐</div>
+    <div class="sparkles sparkle3">✨</div>
+    <div class="sparkles sparkle4">⭐</div>
+    
+    <div class="container">
+        <div class="icon">💙</div>
+        <h1>Tania</h1>
+        <div class="divider"></div>
+        <p class="subtitle">Welcome</p>
+        <div class="accent">✦</div>
+    </div>
 </body>
 </html>
