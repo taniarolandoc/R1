@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= typeof title !== 'undefined' ? title + ' - ' : '' %>Pension Investment App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <% if (user) { %>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                <li><a href="/risk/questionnaire"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
+                <li><a href="/recommendations"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
+                <li><a href="/education"><i class="fas fa-book"></i> Learn</a></li>
+                <li class="user-menu">
+                    <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
+                    <div class="dropdown">
+                        <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <% } %>
+
+    <main class="<%= user ? 'main-content' : 'main-content-full' %>">
+        <%- body %>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
+            <p>Helping you secure your financial future.</p>
+        </div>
+    </footer>
+
+    <script src="/js/main.js"></script>
+</body>
+</html>

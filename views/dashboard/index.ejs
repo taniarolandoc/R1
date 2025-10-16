@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Pension Investment App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard" class="active"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                <li><a href="/risk/questionnaire"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
+                <li><a href="/recommendations"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
+                <li><a href="/education"><i class="fas fa-book"></i> Learn</a></li>
+                <li class="user-menu">
+                    <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
+                    <div class="dropdown">
+                        <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Welcome back, <%= user.firstName %>!</h1>
+                <p>Here's an overview of your pension portfolio</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Balance</h3>
+                        <p class="stat-value"><%= formatCurrency(portfolio.total_balance) %></p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon green">
+                        <i class="fas fa-arrow-up"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Total Returns</h3>
+                        <p class="stat-value <%= metrics.totalReturn >= 0 ? 'positive' : 'negative' %>">
+                            <%= formatCurrency(metrics.totalReturn) %>
+                            <span class="stat-change">(<%= formatPercentage(metrics.returnPercentage) %>)</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon purple">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Risk Profile</h3>
+                        <p class="stat-value"><%= riskProfile ? riskProfile.risk_category : 'Not Set' %></p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon orange">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>Years to Retirement</h3>
+                        <p class="stat-value"><%= metrics.yearsToRetirement || 'N/A' %></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="dashboard-card large">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-line"></i> Performance History</h2>
+                    </div>
+                    <div class="card-body">
+                        <% if (performanceHistory.length > 0) { %>
+                        <canvas id="performanceChart"></canvas>
+                        <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-chart-line"></i>
+                            <p>No performance data yet. Start by adding transactions to your portfolio.</p>
+                            <a href="/portfolio" class="btn btn-primary">Go to Portfolio</a>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-pie-chart"></i> Asset Allocation</h2>
+                    </div>
+                    <div class="card-body">
+                        <% if (allocations.length > 0) { %>
+                        <canvas id="allocationChart"></canvas>
+                        <div class="allocation-legend">
+                            <% allocations.forEach(allocation => { %>
+                            <div class="legend-item">
+                                <span class="legend-label"><%= allocation.asset_type %></span>
+                                <span class="legend-value"><%= formatPercentage(allocation.allocation_percentage) %></span>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-pie-chart"></i>
+                            <p>No allocations yet. Complete your risk profile to get recommendations.</p>
+                            <a href="/risk/questionnaire" class="btn btn-primary">Take Quiz</a>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-lightbulb"></i> Recommendations</h2>
+                        <a href="/recommendations" class="card-action">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <% if (recommendations.length > 0) { %>
+                        <div class="recommendations-list">
+                            <% recommendations.forEach(rec => { %>
+                            <div class="recommendation-item priority-<%= rec.priority.toLowerCase() %>">
+                                <div class="recommendation-header">
+                                    <span class="recommendation-badge"><%= rec.priority %></span>
+                                    <h4><%= rec.title %></h4>
+                                </div>
+                                <p><%= rec.description %></p>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>No recommendations available. Generate personalized recommendations based on your profile.</p>
+                            <a href="/recommendations" class="btn btn-primary">Generate Now</a>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-history"></i> Recent Transactions</h2>
+                        <a href="/portfolio" class="card-action">View All</a>
+                    </div>
+                    <div class="card-body">
+                        <% if (recentTransactions.length > 0) { %>
+                        <div class="transactions-list">
+                            <% recentTransactions.forEach(transaction => { %>
+                            <div class="transaction-item">
+                                <div class="transaction-icon <%= transaction.transaction_type.toLowerCase() %>">
+                                    <i class="fas <%= transaction.transaction_type === 'Contribution' ? 'fa-plus' : 'fa-minus' %>"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <h4><%= transaction.transaction_type %></h4>
+                                    <p><%= new Date(transaction.transaction_date).toLocaleDateString() %></p>
+                                </div>
+                                <div class="transaction-amount <%= transaction.transaction_type === 'Contribution' ? 'positive' : 'negative' %>">
+                                    <%= formatCurrency(transaction.amount) %>
+                                </div>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-history"></i>
+                            <p>No transactions yet. Add your first contribution to get started.</p>
+                            <a href="/portfolio" class="btn btn-primary">Add Transaction</a>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Performance Chart
+        <% if (performanceHistory.length > 0) { %>
+        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(performanceCtx, {
+            type: 'line',
+            data: {
+                labels: <%= JSON.stringify(performanceHistory.map(p => new Date(p.date).toLocaleDateString())) %>,
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: <%= JSON.stringify(performanceHistory.map(p => p.balance)) %>,
+                    borderColor: '#4f46e5',
+                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        <% } %>
+
+        // Allocation Chart
+        <% if (allocations.length > 0) { %>
+        const allocationCtx = document.getElementById('allocationChart').getContext('2d');
+        new Chart(allocationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: <%= JSON.stringify(allocations.map(a => a.asset_type)) %>,
+                datasets: [{
+                    data: <%= JSON.stringify(allocations.map(a => a.allocation_percentage)) %>,
+                    backgroundColor: [
+                        '#4f46e5',
+                        '#10b981',
+                        '#f59e0b',
+                        '#ef4444',
+                        '#8b5cf6'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        <% } %>
+    </script>
+</body>
+</html>

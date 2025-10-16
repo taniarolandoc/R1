@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Profile Questionnaire - Pension Investment App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                <li><a href="/risk/questionnaire" class="active"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
+                <li><a href="/recommendations"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
+                <li><a href="/education"><i class="fas fa-book"></i> Learn</a></li>
+                <li class="user-menu">
+                    <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
+                    <div class="dropdown">
+                        <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-clipboard-list"></i> Risk Profile Assessment</h1>
+                <p>Help us understand your investment preferences and risk tolerance</p>
+                <% if (hasExistingProfile) { %>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> You already have a risk profile. Submitting this form will update your existing profile.
+                </div>
+                <% } %>
+            </div>
+
+            <div class="questionnaire-card">
+                <form action="/risk/questionnaire" method="POST" class="questionnaire-form">
+                    <div class="question-section">
+                        <h3>Financial Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="investmentHorizon">How many years until you plan to retire?</label>
+                            <input type="number" id="investmentHorizon" name="investmentHorizon" min="1" max="50" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="monthlyIncome">What is your monthly income? ($)</label>
+                            <input type="number" id="monthlyIncome" name="monthlyIncome" min="0" step="100" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="currentSavings">What are your current total savings? ($)</label>
+                            <input type="number" id="currentSavings" name="currentSavings" min="0" step="1000" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="retirementGoal">What is your retirement savings goal? ($)</label>
+                            <input type="number" id="retirementGoal" name="retirementGoal" min="0" step="10000" required>
+                        </div>
+                    </div>
+
+                    <div class="question-section">
+                        <h3>Risk Tolerance Questions</h3>
+                        
+                        <div class="form-group">
+                            <label>How comfortable are you with investment risk?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="riskComfort" value="1" required>
+                                    <span>Very uncomfortable - I prefer safety over growth</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="riskComfort" value="2">
+                                    <span>Somewhat uncomfortable - I prefer minimal risk</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="riskComfort" value="3">
+                                    <span>Neutral - I can accept moderate risk</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="riskComfort" value="4">
+                                    <span>Comfortable - I'm willing to take risks for growth</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="riskComfort" value="5">
+                                    <span>Very comfortable - I seek high-risk, high-reward opportunities</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How would you react if your portfolio lost 20% in a year?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="lossReaction" value="1" required>
+                                    <span>Sell everything immediately</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="lossReaction" value="2">
+                                    <span>Reduce my risk exposure significantly</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="lossReaction" value="3">
+                                    <span>Hold steady and wait for recovery</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="lossReaction" value="4">
+                                    <span>Buy more at lower prices</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How would you describe your investment knowledge?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentKnowledge" value="1" required>
+                                    <span>Beginner - I'm just starting to learn</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentKnowledge" value="2">
+                                    <span>Basic - I understand the fundamentals</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentKnowledge" value="3">
+                                    <span>Intermediate - I have some experience</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentKnowledge" value="4">
+                                    <span>Advanced - I'm well-versed in investing</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>How do you feel about market volatility?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="marketVolatility" value="1" required>
+                                    <span>It makes me very anxious</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="marketVolatility" value="2">
+                                    <span>It concerns me somewhat</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="marketVolatility" value="3">
+                                    <span>I can tolerate it</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="marketVolatility" value="4">
+                                    <span>I see it as an opportunity</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>What is your primary investment goal?</label>
+                            <div class="radio-group">
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentGoal" value="1" required>
+                                    <span>Preserve capital - avoid losses</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentGoal" value="2">
+                                    <span>Generate steady income</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentGoal" value="3">
+                                    <span>Balanced growth and income</span>
+                                </label>
+                                <label class="radio-label">
+                                    <input type="radio" name="investmentGoal" value="4">
+                                    <span>Maximize long-term growth</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-check"></i> Submit Assessment
+                        </button>
+                        <% if (hasExistingProfile) { %>
+                        <a href="/risk/results" class="btn btn-secondary">View Current Profile</a>
+                        <% } %>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

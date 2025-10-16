@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Resources - Pension Investment App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                <li><a href="/risk/questionnaire"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
+                <li><a href="/recommendations"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
+                <li><a href="/education" class="active"><i class="fas fa-book"></i> Learn</a></li>
+                <li class="user-menu">
+                    <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
+                    <div class="dropdown">
+                        <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-graduation-cap"></i> Educational Resources</h1>
+                <p>Learn about investment strategies, risk management, and retirement planning</p>
+            </div>
+
+            <div class="education-filters">
+                <a href="/education?category=all" class="filter-btn <%= selectedCategory === 'all' ? 'active' : '' %>">
+                    All Topics
+                </a>
+                <% categories.forEach(category => { %>
+                <a href="/education?category=<%= encodeURIComponent(category) %>" class="filter-btn <%= selectedCategory === category ? 'active' : '' %>">
+                    <%= category %>
+                </a>
+                <% }); %>
+            </div>
+
+            <div class="articles-grid">
+                <% articles.forEach(article => { %>
+                <div class="article-card">
+                    <div class="article-header">
+                        <span class="article-category"><%= article.category %></span>
+                        <% if (article.difficulty_level) { %>
+                        <span class="difficulty-badge <%= article.difficulty_level.toLowerCase() %>">
+                            <%= article.difficulty_level %>
+                        </span>
+                        <% } %>
+                    </div>
+                    <h3><%= article.title %></h3>
+                    <p class="article-excerpt">
+                        <%= article.content.substring(0, 150) %>...
+                    </p>
+                    <div class="article-footer">
+                        <span class="read-time">
+                            <i class="fas fa-clock"></i> <%= article.read_time || 5 %> min read
+                        </span>
+                        <a href="/education/article/<%= article.id %>" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <% }); %>
+            </div>
+
+            <% if (articles.length === 0) { %>
+            <div class="empty-state">
+                <i class="fas fa-book"></i>
+                <p>No articles found in this category.</p>
+            </div>
+            <% } %>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+        .education-filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            background-color: white;
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 2px solid var(--border-color);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .articles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .article-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .article-category {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .difficulty-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .difficulty-badge.beginner {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .difficulty-badge.intermediate {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .difficulty-badge.advanced {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .article-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .article-excerpt {
+            color: var(--text-light);
+            line-height: 1.6;
+            flex-grow: 1;
+            margin-bottom: 1rem;
+        }
+
+        .article-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .read-time {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .read-more {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .read-more:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .articles-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

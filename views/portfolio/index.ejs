@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Pension Investment App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/portfolio" class="active"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                <li><a href="/risk/questionnaire"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
+                <li><a href="/recommendations"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
+                <li><a href="/education"><i class="fas fa-book"></i> Learn</a></li>
+                <li class="user-menu">
+                    <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
+                    <div class="dropdown">
+                        <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-briefcase"></i> My Portfolio</h1>
+                <button class="btn btn-primary" onclick="showAddTransactionModal()">
+                    <i class="fas fa-plus"></i> Add Transaction
+                </button>
+            </div>
+
+            <div class="portfolio-summary">
+                <div class="summary-card">
+                    <h3>Total Balance</h3>
+                    <p class="summary-value"><%= formatCurrency(portfolio.total_balance) %></p>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Contributions</h3>
+                    <p class="summary-value"><%= formatCurrency(portfolio.total_contributions) %></p>
+                </div>
+                <div class="summary-card">
+                    <h3>Total Returns</h3>
+                    <p class="summary-value <%= portfolio.total_returns >= 0 ? 'positive' : 'negative' %>">
+                        <%= formatCurrency(portfolio.total_returns) %>
+                    </p>
+                </div>
+            </div>
+
+            <div class="portfolio-grid">
+                <div class="portfolio-card large">
+                    <div class="card-header">
+                        <h2><i class="fas fa-chart-area"></i> Performance History</h2>
+                    </div>
+                    <div class="card-body">
+                        <% if (performanceHistory.length > 0) { %>
+                        <canvas id="performanceChart"></canvas>
+                        <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-chart-line"></i>
+                            <p>No performance data available yet.</p>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="portfolio-card">
+                    <div class="card-header">
+                        <h2><i class="fas fa-pie-chart"></i> Asset Allocation</h2>
+                    </div>
+                    <div class="card-body">
+                        <% if (allocations.length > 0) { %>
+                        <canvas id="allocationChart"></canvas>
+                        <div class="allocation-list">
+                            <% allocations.forEach(allocation => { %>
+                            <div class="allocation-row">
+                                <span><%= allocation.asset_type %></span>
+                                <span><%= formatPercentage(allocation.allocation_percentage) %></span>
+                                <span><%= formatCurrency(allocation.amount) %></span>
+                            </div>
+                            <% }); %>
+                        </div>
+                        <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-pie-chart"></i>
+                            <p>No allocations set up yet.</p>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+
+                <div class="portfolio-card full-width">
+                    <div class="card-header">
+                        <h2><i class="fas fa-list"></i> Transaction History</h2>
+                    </div>
+                    <div class="card-body">
+                        <% if (transactions.length > 0) { %>
+                        <div class="table-responsive">
+                            <table class="transactions-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% transactions.forEach(transaction => { %>
+                                    <tr>
+                                        <td><%= formatDate(transaction.transaction_date) %></td>
+                                        <td>
+                                            <span class="badge <%= transaction.transaction_type.toLowerCase() %>">
+                                                <%= transaction.transaction_type %>
+                                            </span>
+                                        </td>
+                                        <td><%= transaction.description || '-' %></td>
+                                        <td class="<%= transaction.transaction_type === 'Contribution' ? 'positive' : 'negative' %>">
+                                            <%= formatCurrency(transaction.amount) %>
+                                        </td>
+                                    </tr>
+                                    <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                        <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-list"></i>
+                            <p>No transactions yet. Add your first transaction to get started.</p>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Transaction Modal -->
+    <div id="transactionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Transaction</h2>
+                <button class="close-btn" onclick="closeTransactionModal()">&times;</button>
+            </div>
+            <form action="/portfolio/transaction" method="POST">
+                <div class="form-group">
+                    <label for="type">Transaction Type</label>
+                    <select id="type" name="type" required>
+                        <option value="Contribution">Contribution</option>
+                        <option value="Withdrawal">Withdrawal</option>
+                        <option value="Dividend">Dividend</option>
+                        <option value="Fee">Fee</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="amount">Amount ($)</label>
+                    <input type="number" id="amount" name="amount" step="0.01" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                <div class="form-group">
+                    <label for="description">Description (Optional)</label>
+                    <textarea id="description" name="description" rows="3"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeTransactionModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Add Transaction</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Performance Chart
+        <% if (performanceHistory.length > 0) { %>
+        const performanceCtx = document.getElementById('performanceChart').getContext('2d');
+        new Chart(performanceCtx, {
+            type: 'line',
+            data: {
+                labels: <%= JSON.stringify(performanceHistory.map(p => formatDate(p.date))) %>,
+                datasets: [{
+                    label: 'Portfolio Value',
+                    data: <%= JSON.stringify(performanceHistory.map(p => p.balance)) %>,
+                    borderColor: '#4f46e5',
+                    backgroundColor: 'rgba(79, 70, 229, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return '$' + value.toLocaleString();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+        <% } %>
+
+        // Allocation Chart
+        <% if (allocations.length > 0) { %>
+        const allocationCtx = document.getElementById('allocationChart').getContext('2d');
+        new Chart(allocationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: <%= JSON.stringify(allocations.map(a => a.asset_type)) %>,
+                datasets: [{
+                    data: <%= JSON.stringify(allocations.map(a => a.allocation_percentage)) %>,
+                    backgroundColor: ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+        <% } %>
+
+        // Modal functions
+        function showAddTransactionModal() {
+            document.getElementById('transactionModal').style.display = 'flex';
+            document.getElementById('date').valueAsDate = new Date();
+        }
+
+        function closeTransactionModal() {
+            document.getElementById('transactionModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('transactionModal');
+            if (event.target === modal) {
+                closeTransactionModal();
+            }
+        }
+    </script>
+
+    <style>
+        .portfolio-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .summary-card h3 {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--dark-color);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .portfolio-card.large {
+            grid-column: span 2;
+        }
+
+        .portfolio-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .allocation-list {
+            margin-top: 1.5rem;
+        }
+
+        .allocation-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .allocation-row:last-child {
+            border-bottom: none;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        .transactions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .transactions-table th,
+        .transactions-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .transactions-table th {
+            font-weight: 600;
+            color: var(--dark-color);
+            background-color: var(--light-color);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .badge.contribution {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge.withdrawal {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .modal-header h2 {
+            margin: 0;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+
+        .modal-content form {
+            padding: 1.5rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .portfolio-card.large {
+                grid-column: span 1;
+            }
+
+            .portfolio-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html>

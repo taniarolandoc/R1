@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= article.title %> - Pension Investment App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                <li><a href="/risk/questionnaire"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
+                <li><a href="/recommendations"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
+                <li><a href="/education" class="active"><i class="fas fa-book"></i> Learn</a></li>
+                <li class="user-menu">
+                    <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
+                    <div class="dropdown">
+                        <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="article-container">
+                <a href="/education" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Articles
+                </a>
+
+                <article class="article-content">
+                    <div class="article-meta">
+                        <span class="article-category"><%= article.category %></span>
+                        <% if (article.difficulty_level) { %>
+                        <span class="difficulty-badge <%= article.difficulty_level.toLowerCase() %>">
+                            <%= article.difficulty_level %>
+                        </span>
+                        <% } %>
+                        <span class="read-time">
+                            <i class="fas fa-clock"></i> <%= article.read_time || 5 %> min read
+                        </span>
+                    </div>
+
+                    <h1><%= article.title %></h1>
+
+                    <div class="article-body">
+                        <%= article.content.split('\n\n').map(paragraph => `<p>${paragraph}</p>`).join('') %>
+                    </div>
+                </article>
+
+                <% if (relatedArticles.length > 0) { %>
+                <div class="related-articles">
+                    <h2>Related Articles</h2>
+                    <div class="related-grid">
+                        <% relatedArticles.forEach(related => { %>
+                        <a href="/education/article/<%= related.id %>" class="related-card">
+                            <span class="related-category"><%= related.category %></span>
+                            <h3><%= related.title %></h3>
+                            <span class="read-time">
+                                <i class="fas fa-clock"></i> <%= related.read_time || 5 %> min read
+                            </span>
+                        </a>
+                        <% }); %>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style>
+        .article-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .article-content {
+            background: white;
+            border-radius: 12px;
+            padding: 3rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .article-category {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .article-content h1 {
+            font-size: 2.5rem;
+            color: var(--dark-color);
+            margin-bottom: 2rem;
+            line-height: 1.2;
+        }
+
+        .article-body {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .article-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-body h2 {
+            font-size: 1.75rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+
+        .article-body h3 {
+            font-size: 1.5rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark-color);
+        }
+
+        .article-body ul,
+        .article-body ol {
+            margin-bottom: 1.5rem;
+            padding-left: 2rem;
+        }
+
+        .article-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        .related-articles {
+            margin-top: 3rem;
+        }
+
+        .related-articles h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--dark-color);
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .related-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-decoration: none;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .related-category {
+            font-size: 0.875rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .related-card h3 {
+            font-size: 1.125rem;
+            color: var(--dark-color);
+            margin: 0;
+        }
+
+        .related-card .read-time {
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .article-content {
+                padding: 1.5rem;
+            }
+
+            .article-content h1 {
+                font-size: 2rem;
+            }
+
+            .article-body {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</body>
+</html>

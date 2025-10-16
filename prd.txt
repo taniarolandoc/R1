@@ -1,0 +1,41 @@
+Product Requirements Document – Pension Investment Web App
+
+1. Overview
+The goal of this project is to build a web application that helps users track, understand, and optimize their pension funds. Many people do not know how their retirement savings are performing or how to improve them. This app will provide transparency, personalized recommendations, and educational tools to help users make smarter investment decisions.
+
+2. Objectives
+- Provide users with a clear view of their pension accounts, balances, and investment performance.
+- Help users understand how their money is being invested and potential long-term outcomes.
+- Offer personalized recommendations based on user risk profile, age, and goals.
+- Educate users about investment options, risk tolerance, and diversification.
+
+3. Target Users
+- Individuals who contribute to pension funds but lack financial literacy.
+- Young professionals starting to save for retirement.
+- Users nearing retirement who want to review or adjust their investment strategy.
+
+4. Core Features
+- User Authentication: Secure login and profile management.
+- Dashboard: Overview of total balance, contributions, growth over time, and risk profile.
+- Portfolio Visualization: Charts showing allocation, performance history, and diversification.
+- Risk Profiling: Questionnaire to assess risk tolerance and create personalized strategies.
+- Recommendations Engine: Suggest funds or allocation adjustments based on user profile.
+- Educational Resources: Guides and explanations on investment strategies, risk, and retirement planning.
+
+5. Tech Stack
+- Backend: Node.js + Express
+- Database: PostgreSQL
+- Frontend: EJS (server-side rendering) + Vanilla JavaScript
+- Hosting: Railway (backend) + Vercel (frontend)
+
+6. Future Enhancements
+- AI-based recommendation engine for more personalized investment strategies.
+- Integration with real pension fund APIs for live account syncing.
+- Notifications for performance updates or investment opportunities.
+- Comparison tools for different fund options.
+
+7. Success Metrics
+- User engagement (time spent on dashboard, number of visits).
+- Number of users completing the risk profile questionnaire.
+- Conversion rate from recommendations to portfolio changes.
+- User satisfaction ratings and retention.

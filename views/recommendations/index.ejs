@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations - Pension Investment App</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
+                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> Portfolio</a></li>
+                <li><a href="/risk/questionnaire"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
+                <li><a href="/recommendations" class="active"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
+                <li><a href="/education"><i class="fas fa-book"></i> Learn</a></li>
+                <li class="user-menu">
+                    <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
+                    <div class="dropdown">
+                        <a href="/auth/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1><i class="fas fa-lightbulb"></i> Personalized Recommendations</h1>
+                <form action="/recommendations/generate" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-sync-alt"></i> Generate New Recommendations
+                    </button>
+                </form>
+            </div>
+
+            <% if (recommendations.length === 0) { %>
+            <div class="empty-recommendations">
+                <div class="empty-state">
+                    <i class="fas fa-lightbulb"></i>
+                    <h2>No Recommendations Yet</h2>
+                    <p>Generate personalized recommendations based on your risk profile and portfolio.</p>
+                    <form action="/recommendations/generate" method="POST">
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-magic"></i> Generate Recommendations
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <% } else { %>
+            <div class="recommendations-container">
+                <div class="recommendations-tabs">
+                    <button class="tab-btn active" onclick="filterRecommendations('all')">All</button>
+                    <button class="tab-btn" onclick="filterRecommendations('pending')">Pending</button>
+                    <button class="tab-btn" onclick="filterRecommendations('accepted')">Accepted</button>
+                    <button class="tab-btn" onclick="filterRecommendations('rejected')">Rejected</button>
+                </div>
+
+                <div class="recommendations-list">
+                    <% recommendations.forEach(rec => { %>
+                    <div class="recommendation-card priority-<%= rec.priority.toLowerCase() %> status-<%= rec.status %>" data-status="<%= rec.status %>">
+                        <div class="recommendation-header">
+                            <div class="recommendation-badges">
+                                <span class="priority-badge <%= rec.priority.toLowerCase() %>">
+                                    <%= rec.priority %> Priority
+                                </span>
+                                <span class="type-badge">
+                                    <i class="fas <%= rec.recommendation_type === 'Rebalance' ? 'fa-balance-scale' : rec.recommendation_type === 'Increase Contribution' ? 'fa-arrow-up' : 'fa-exchange-alt' %>"></i>
+                                    <%= rec.recommendation_type %>
+                                </span>
+                            </div>
+                            <span class="status-badge <%= rec.status %>">
+                                <%= rec.status.charAt(0).toUpperCase() + rec.status.slice(1) %>
+                            </span>
+                        </div>
+                        
+                        <div class="recommendation-body">
+                            <h3><%= rec.title %></h3>
+                            <p><%= rec.description %></p>
+                        </div>
+
+                        <% if (rec.status === 'pending') { %>
+                        <div class="recommendation-actions">
+                            <form action="/recommendations/<%= rec.id %>/status" method="POST" style="display: inline;">
+                                <input type="hidden" name="status" value="accepted">
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-check"></i> Accept
+                                </button>
+                            </form>
+                            <form action="/recommendations/<%= rec.id %>/status" method="POST" style="display: inline;">
+                                <input type="hidden" name="status" value="rejected">
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-times"></i> Reject
+                                </button>
+                            </form>
+                            <form action="/recommendations/<%= rec.id %>/status" method="POST" style="display: inline;">
+                                <input type="hidden" name="status" value="implemented">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-check-double"></i> Mark as Implemented
+                                </button>
+                            </form>
+                        </div>
+                        <% } %>
+
+                        <div class="recommendation-footer">
+                            <small><i class="fas fa-clock"></i> <%= new Date(rec.created_at).toLocaleDateString() %></small>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        function filterRecommendations(status) {
+            const cards = document.querySelectorAll('.recommendation-card');
+            const tabs = document.querySelectorAll('.tab-btn');
+
+            // Update active tab
+            tabs.forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter cards
+            cards.forEach(card => {
+                if (status === 'all' || card.dataset.status === status) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .empty-recommendations {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .recommendations-container {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .recommendations-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            padding: 0 1.5rem;
+        }
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text-light);
+            border-bottom: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .tab-btn.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .recommendations-list {
+            padding: 1.5rem;
+        }
+
+        .recommendation-card {
+            background: white;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s;
+        }
+
+        .recommendation-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendation-card.priority-high {
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .recommendation-card.priority-medium {
+            border-left: 4px solid var(--warning-color);
+        }
+
+        .recommendation-card.priority-low {
+            border-left: 4px solid var(--info-color);
+        }
+
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-badges {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .priority-badge,
+        .type-badge,
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .priority-badge.high {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .priority-badge.medium {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .priority-badge.low {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .type-badge {
+            background-color: var(--light-color);
+            color: var(--text-color);
+        }
+
+        .status-badge {
+            background-color: var(--light-color);
+            color: var(--text-color);
+        }
+
+        .status-badge.pending {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-badge.accepted {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+
+        .status-badge.rejected {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+
+        .status-badge.implemented {
+            background-color: #dbeafe;
+            color: #1e40af;
+        }
+
+        .recommendation-body h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--dark-color);
+        }
+
+        .recommendation-body p {
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .recommendation-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .recommendation-footer {
+            margin-top: 1rem;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            .recommendation-actions {
+                flex-direction: column;
+            }
+
+            .recommendation-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</body>
+</html>
