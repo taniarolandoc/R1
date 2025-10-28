@@ -376,8 +376,8 @@
                 </a>
             </div>
             <ul class="nav-menu">
-                <li><a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')">Login</a></li>
-                <li><a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-yellow">Get Started</a></li>
+                <li><a href="#" onclick="openModal('signin')">Login</a></li>
+                <li><a href="#" onclick="openModal('signup')" class="btn btn-yellow">Get Started</a></li>
             </ul>
         </div>
     </nav>
@@ -388,8 +388,8 @@
                 <h1>Fund Your Favorite Local Restaurants</h1>
                 <p class="hero-subtitle">Connect restaurants with community investors through verified crowdfunding campaigns, milestone tracking, and blockchain transparency.</p>
                 <div class="hero-buttons">
-                    <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-primary btn-large">Start Free Today</a>
-                    <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-secondary btn-large">Sign In</a>
+                    <a href="#" onclick="openModal('signup')" class="btn btn-primary btn-large">Start Free Today</a>
+                    <a href="#" onclick="openModal('signin')" class="btn btn-secondary btn-large">Sign In</a>
                 </div>
             </div>
         </div>
@@ -578,11 +578,62 @@
         <div class="container">
             <h2>Ready to Support Local Restaurants?</h2>
             <p>Join investors and restaurants building stronger communities through transparent crowdfunding.</p>
-            <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-outline-white btn-large">Create Your Free Account</a>
+            <a href="#" onclick="openModal('signup')" class="btn btn-outline-white btn-large">Create Your Free Account</a>
+            <a href="#" onclick="openModal('signin')" class="btn btn-secondary btn-large">Sign In</a>
         </div>
     </section>
 
     <!-- Modals -->
+    <!-- Auth: Sign In -->
+    <div id="modal-signin" class="modal" onclick="closeModal(event, 'signin')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'signin')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-right-to-bracket"></i></div>
+            <h2>Sign In</h2>
+            <form id="form-signin" class="auth-form">
+                <div class="form-group">
+                    <label for="si-email">Email</label>
+                    <input id="si-email" type="email" required placeholder="you@example.com" />
+                </div>
+                <div class="form-group">
+                    <label for="si-password">Password</label>
+                    <input id="si-password" type="password" required placeholder="••••••••" />
+                </div>
+                <div class="form-actions" style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;">
+                    <button type="button" class="btn" onclick="closeModal(event, 'signin')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Auth: Sign Up -->
+    <div id="modal-signup" class="modal" onclick="closeModal(event, 'signup')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'signup')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-user-plus"></i></div>
+            <h2>Create your account</h2>
+            <form id="form-signup" class="auth-form">
+                <div class="form-group">
+                    <label for="su-name">Full name</label>
+                    <input id="su-name" type="text" required placeholder="Jane Doe" />
+                </div>
+                <div class="form-group">
+                    <label for="su-email">Email</label>
+                    <input id="su-email" type="email" required placeholder="you@example.com" />
+                </div>
+                <div class="form-group">
+                    <label for="su-password">Password</label>
+                    <input id="su-password" type="password" required placeholder="Create a password" />
+                </div>
+                <div class="form-actions" style="display:flex;gap:.5rem;justify-content:flex-end;margin-top:1rem;">
+                    <button type="button" class="btn" onclick="closeModal(event, 'signup')">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="modal-campaigns" class="modal" onclick="closeModal(event, 'campaigns')">
         <div class="modal-content" onclick="event.stopPropagation()">
             <button class="modal-close" onclick="closeModal(event, 'campaigns')">&times;</button>
