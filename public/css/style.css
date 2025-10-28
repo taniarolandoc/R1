@@ -58,6 +58,13 @@ body {
     gap: 0.5rem;
 }
 
+.nav-brand .logo {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .nav-menu {
     display: flex;
     list-style: none;

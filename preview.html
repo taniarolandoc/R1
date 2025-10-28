@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TastyFund - Restaurant Investment Crowdfunding Platform</title>
+    <link rel="stylesheet" href="public/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Additional inline styles for preview */
+        body.landing-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .landing-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .features {
+            background: white;
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--dark-color);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            padding: 2rem;
+            background: var(--light-color);
+            border-radius: 12px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background: white;
+        }
+        
+        .feature-card::after {
+            content: 'Click to learn more';
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            color: var(--primary-color);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        .feature-card:hover::after {
+            opacity: 1;
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .feature-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+        
+        .cta {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
+        
+        .cta h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.95;
+        }
+        
+        .footer {
+            background: var(--dark-color);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+        }
+        
+        .footer p {
+            margin: 0.5rem 0;
+            opacity: 0.8;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: var(--primary-color);
+            border: 2px solid white;
+        }
+        
+        .btn-secondary:hover {
+            background: transparent;
+            color: white;
+        }
+        
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+        
+        .nav-brand .logo {
+            height: 60px;
+            width: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.3s;
+        }
+        
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 16px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+        
+        .modal-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--text-light);
+            transition: color 0.3s;
+            background: none;
+            border: none;
+        }
+        
+        .modal-close:hover {
+            color: var(--danger-color);
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+        
+        .modal h2 {
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+        
+        .modal-description {
+            color: var(--text-color);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-features {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .modal-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .modal-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .modal-features i {
+            color: var(--success-color);
+            font-size: 1.2rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                padding: 2rem;
+                width: 95%;
+            }
+            
+            .modal h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="landing-page">
+    <nav class="navbar landing-nav">
+        <div class="container">
+            <div class="nav-brand">
+                <a href="/">
+                    <img src="tastyfund-logo.png" alt="TastyFund Logo" class="logo">
+                    <span>TastyFund</span>
+                </a>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')">Login</a></li>
+                <li><a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-primary">Get Started</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Fund Your Favorite Local Restaurants</h1>
+                <p class="hero-subtitle">Connect restaurants with community investors through verified crowdfunding campaigns, milestone tracking, and blockchain transparency.</p>
+                <div class="hero-buttons">
+                    <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-primary btn-large">Start Free Today</a>
+                    <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-secondary btn-large">Sign In</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Choose TastyFund?</h2>
+            <div class="features-grid">
+                <div class="feature-card" onclick="openModal('campaigns')">
+                    <div class="feature-icon">
+                        <i class="fas fa-store"></i>
+                    </div>
+                    <h3>Restaurant Campaigns</h3>
+                    <p>Browse verified restaurant fundraising campaigns with detailed business plans, funding goals, and milestones.</p>
+                </div>
+                <div class="feature-card" onclick="openModal('tracking')">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Track Your Investments</h3>
+                    <p>Monitor your restaurant portfolio, returns, and funding progress with real-time dashboards.</p>
+                </div>
+                <div class="feature-card" onclick="openModal('milestones')">
+                    <div class="feature-icon">
+                        <i class="fas fa-tasks"></i>
+                    </div>
+                    <h3>Milestone Tracking</h3>
+                    <p>Transparent progress updates tied to fund disbursement stages ensure accountability.</p>
+                </div>
+                <div class="feature-card" onclick="openModal('blockchain')">
+                    <div class="feature-icon">
+                        <i class="fas fa-link"></i>
+                    </div>
+                    <h3>Blockchain Powered</h3>
+                    <p>Immutable transaction records and smart contracts provide complete transparency and trust.</p>
+                </div>
+                <div class="feature-card" onclick="openModal('verification')">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-check"></i>
+                    </div>
+                    <h3>Verified Restaurants</h3>
+                    <p>All restaurants undergo business registration, financial health checks, and operational history validation.</p>
+                </div>
+                <div class="feature-card" onclick="openModal('community')">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Community Driven</h3>
+                    <p>Support local restaurants, read investor reviews, and join a community of food enthusiasts.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta">
+        <div class="container">
+            <h2>Ready to Support Local Restaurants?</h2>
+            <p>Join investors and restaurants building stronger communities through transparent crowdfunding.</p>
+            <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-primary btn-large">Create Your Free Account</a>
+        </div>
+    </section>
+
+    <!-- Modals -->
+    <div id="modal-campaigns" class="modal" onclick="closeModal(event, 'campaigns')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'campaigns')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-store"></i></div>
+            <h2>Restaurant Campaigns</h2>
+            <p class="modal-description">
+                Discover exciting restaurant ventures seeking funding. Each campaign provides comprehensive details about the restaurant's vision, business model, and growth strategy.
+            </p>
+            <ul class="modal-features">
+                <li><i class="fas fa-check-circle"></i> Detailed business plans and financial projections</li>
+                <li><i class="fas fa-check-circle"></i> Funding goals with transparent use of funds breakdown</li>
+                <li><i class="fas fa-check-circle"></i> Restaurant photos, menus, and concept descriptions</li>
+                <li><i class="fas fa-check-circle"></i> Risk assessments and market analysis</li>
+                <li><i class="fas fa-check-circle"></i> Owner background and experience</li>
+                <li><i class="fas fa-check-circle"></i> Timeline and milestone roadmap</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal-tracking" class="modal" onclick="closeModal(event, 'tracking')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'tracking')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-chart-line"></i></div>
+            <h2>Track Your Investments</h2>
+            <p class="modal-description">
+                Stay informed with comprehensive investment tracking tools. Monitor your portfolio performance, track returns, and make data-driven decisions.
+            </p>
+            <ul class="modal-features">
+                <li><i class="fas fa-check-circle"></i> Real-time portfolio dashboard with performance metrics</li>
+                <li><i class="fas fa-check-circle"></i> Investment history and transaction logs</li>
+                <li><i class="fas fa-check-circle"></i> ROI calculator and returns projections</li>
+                <li><i class="fas fa-check-circle"></i> Diversification analysis across restaurants</li>
+                <li><i class="fas fa-check-circle"></i> Performance charts and visualizations</li>
+                <li><i class="fas fa-check-circle"></i> Email alerts for important updates</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal-milestones" class="modal" onclick="closeModal(event, 'milestones')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'milestones')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-tasks"></i></div>
+            <h2>Milestone Tracking</h2>
+            <p class="modal-description">
+                Ensure accountability with milestone-based fund disbursement. Restaurants must achieve specific goals before accessing the next round of funding.
+            </p>
+            <ul class="modal-features">
+                <li><i class="fas fa-check-circle"></i> Clear milestone definitions and requirements</li>
+                <li><i class="fas fa-check-circle"></i> Progress updates with photo and document evidence</li>
+                <li><i class="fas fa-check-circle"></i> Staged fund release tied to milestone completion</li>
+                <li><i class="fas fa-check-circle"></i> Investor voting on milestone achievement</li>
+                <li><i class="fas fa-check-circle"></i> Timeline tracking and deadline management</li>
+                <li><i class="fas fa-check-circle"></i> Automated notifications for milestone updates</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal-blockchain" class="modal" onclick="closeModal(event, 'blockchain')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'blockchain')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-link"></i></div>
+            <h2>Blockchain Powered</h2>
+            <p class="modal-description">
+                Built on blockchain technology for maximum transparency and security. Every transaction is recorded immutably, creating an auditable trail of all fund movements.
+            </p>
+            <ul class="modal-features">
+                <li><i class="fas fa-check-circle"></i> Immutable transaction records on the blockchain</li>
+                <li><i class="fas fa-check-circle"></i> Smart contracts for automated fund release</li>
+                <li><i class="fas fa-check-circle"></i> Transparent capital usage tracking</li>
+                <li><i class="fas fa-check-circle"></i> Verify any transaction independently</li>
+                <li><i class="fas fa-check-circle"></i> Decentralized trust without intermediaries</li>
+                <li><i class="fas fa-check-circle"></i> Tamper-proof audit trail for compliance</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal-verification" class="modal" onclick="closeModal(event, 'verification')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'verification')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-shield-check"></i></div>
+            <h2>Verified Restaurants</h2>
+            <p class="modal-description">
+                Every restaurant undergoes rigorous verification before launching a campaign. We validate business legitimacy, financial health, and operational capability.
+            </p>
+            <ul class="modal-features">
+                <li><i class="fas fa-check-circle"></i> Business registration and license verification</li>
+                <li><i class="fas fa-check-circle"></i> Financial health checks and credit assessment</li>
+                <li><i class="fas fa-check-circle"></i> Operational history and track record review</li>
+                <li><i class="fas fa-check-circle"></i> Owner background checks and KYC</li>
+                <li><i class="fas fa-check-circle"></i> Location and premises verification</li>
+                <li><i class="fas fa-check-circle"></i> Ongoing compliance monitoring</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="modal-community" class="modal" onclick="closeModal(event, 'community')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="modal-close" onclick="closeModal(event, 'community')">&times;</button>
+            <div class="modal-icon"><i class="fas fa-users"></i></div>
+            <h2>Community Driven</h2>
+            <p class="modal-description">
+                Join a vibrant community of food lovers and local business supporters. Share experiences, read reviews, and connect with fellow investors and restaurant owners.
+            </p>
+            <ul class="modal-features">
+                <li><i class="fas fa-check-circle"></i> Investor reviews and ratings for funded restaurants</li>
+                <li><i class="fas fa-check-circle"></i> Success stories and case studies</li>
+                <li><i class="fas fa-check-circle"></i> Community forums and discussions</li>
+                <li><i class="fas fa-check-circle"></i> Restaurant updates and news feed</li>
+                <li><i class="fas fa-check-circle"></i> Networking events and meetups</li>
+                <li><i class="fas fa-check-circle"></i> Exclusive perks and rewards for active members</li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 TastyFund. All rights reserved.</p>
+            <p>Connecting restaurants with investors for a tastier future.</p>
+            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                <strong>Note:</strong> This is a preview. To access the full application with authentication, dashboards, and database features, 
+                install Node.js and run <code>npm install && npm run dev</code>. See QUICK_START.md for details.
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function openModal(type) {
+            const modal = document.getElementById('modal-' + type);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeModal(event, type) {
+            event.stopPropagation();
+            const modal = document.getElementById('modal-' + type);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal with Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            }
+        });
+    </script>
+</body>
+</html>

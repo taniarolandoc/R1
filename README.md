@@ -1,21 +1,29 @@
-# Pension Investment Web App
+# TastyFund - Restaurant Investment Crowdfunding Platform
 
-A web application that helps users track, understand, and optimize their pension funds.
+A digital platform that enables investment crowdfunding for startup and small-sized restaurants to raise targeted funds for specific operational goals. TastyFund connects restaurants with community investors through verified campaigns, milestone tracking, and blockchain-powered transparency.
+
+## Problem We Solve
+
+Small restaurants struggle to access traditional financing due to strict lending requirements, lack of collateral, and limited financial history. In Korea, banks faced $1.8 billion USD in penalties for failing SME loan quotas, revealing a structural gap in small business financing. TastyFund provides an alternative funding channel that empowers communities to invest directly in local restaurants.
 
 ## Features
 
-- **User Authentication**: Secure login and profile management
-- **Dashboard**: Overview of total balance, contributions, and growth
-- **Portfolio Visualization**: Charts showing allocation and performance
-- **Risk Profiling**: Questionnaire to assess risk tolerance
-- **Recommendations Engine**: Personalized investment suggestions
-- **Educational Resources**: Guides on investment strategies and retirement planning
+- **Dual User Authentication**: Secure login for both restaurants (fundraisers) and investors with KYC verification
+- **Restaurant Dashboard**: Campaign creation, funding progress tracking, milestone management, and investor communications
+- **Investor Dashboard**: Browse campaigns, investment portfolio overview, returns tracking, and restaurant performance monitoring
+- **Campaign Listings**: Detailed restaurant profiles with business plans, funding goals, use of funds breakdown, and risk assessments
+- **Milestone Tracking**: Transparent progress updates tied to fund disbursement stages
+- **Blockchain Integration**: Immutable transaction records, smart contracts for fund release, and transparent capital usage tracking
+- **Investment Tools**: Minimum investment thresholds, diversification recommendations, and risk profiling
+- **Verification System**: Restaurant validation including business registration, financial health checks, and operational history
+- **Community Features**: Investor reviews, restaurant updates, and success stories
 
 ## Tech Stack
 
 - **Backend**: Node.js + Express
-- **Database**: PostgreSQL
+- **Database**: PostgreSQL (with blockchain integration layer)
 - **Frontend**: EJS + Vanilla JavaScript
+- **Blockchain**: Smart contracts for fund management and transparency
 - **Hosting**: Railway (backend) + Vercel (frontend)
 
 ## Setup Instructions
@@ -48,7 +56,7 @@ Edit `.env` file with your database credentials and secrets.
 4. Set up the database:
 ```bash
 # Create the database
-createdb pension_app
+createdb tastyfund_db
 
 # Run migrations
 npm run migrate
@@ -81,24 +89,37 @@ R1-1/
 ## API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - Register new user
+- `POST /api/auth/register` - Register new user (investor or restaurant)
 - `POST /api/auth/login` - Login user
 - `POST /api/auth/logout` - Logout user
 
 ### User Profile
 - `GET /api/user/profile` - Get user profile
 - `PUT /api/user/profile` - Update user profile
+- `POST /api/user/kyc` - Submit KYC verification
 
-### Portfolio
-- `GET /api/portfolio` - Get user portfolio
-- `GET /api/portfolio/performance` - Get performance data
+### Campaigns
+- `GET /api/campaigns` - Browse all restaurant campaigns
+- `GET /api/campaigns/:id` - Get campaign details
+- `POST /api/campaigns` - Create new campaign (restaurant only)
+- `PUT /api/campaigns/:id` - Update campaign
+- `GET /api/campaigns/:id/milestones` - Get campaign milestones
 
-### Risk Assessment
-- `POST /api/risk-assessment` - Submit risk questionnaire
-- `GET /api/risk-assessment/results` - Get risk profile
+### Investments
+- `POST /api/investments` - Make an investment
+- `GET /api/investments/portfolio` - Get investor portfolio
+- `GET /api/investments/:id` - Get investment details
+- `GET /api/investments/returns` - Track investment returns
 
-### Recommendations
-- `GET /api/recommendations` - Get personalized recommendations
+### Restaurant Dashboard
+- `GET /api/restaurant/dashboard` - Get restaurant dashboard data
+- `GET /api/restaurant/investors` - Get list of investors
+- `POST /api/restaurant/updates` - Post campaign update
+- `POST /api/restaurant/milestones` - Update milestone progress
+
+### Blockchain
+- `GET /api/blockchain/transactions` - View blockchain transaction history
+- `GET /api/blockchain/verify/:txId` - Verify transaction on blockchain
 
 ## Deployment
 

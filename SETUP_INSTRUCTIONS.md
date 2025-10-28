@@ -32,7 +32,7 @@ NODE_ENV=development
 
 DB_HOST=localhost
 DB_PORT=5432
-DB_NAME=pension_app
+DB_NAME=tastyfund_db
 DB_USER=postgres
 DB_PASSWORD=your_password_here
 
@@ -87,8 +87,9 @@ The application will be available at `http://localhost:3000`
 1. Navigate to `http://localhost:3000`
 2. Click "Get Started" or "Sign Up"
 3. Fill in your information
-4. Complete the risk profile questionnaire
-5. Start exploring your dashboard!
+4. Choose your account type (Investor or Restaurant)
+5. Complete verification if needed
+6. Start exploring campaigns or create your own!
 
 ## Project Structure
 

@@ -1,41 +1,51 @@
-Product Requirements Document – Pension Investment Web App
+Product Requirements Document – TastyFund (Restaurant Investment Crowdfunding Platform)
 
 1. Overview
-The goal of this project is to build a web application that helps users track, understand, and optimize their pension funds. Many people do not know how their retirement savings are performing or how to improve them. This app will provide transparency, personalized recommendations, and educational tools to help users make smarter investment decisions.
+TastyFund is a digital platform that enables investment crowdfunding for startup and small-sized restaurants to raise targeted funds for specific operational goals. The platform addresses the critical financing gap faced by small restaurants that struggle to access traditional financing due to strict lending requirements, lack of collateral, and limited financial history. By connecting restaurants with community investors through a verified crowdfunding system, TastyFund ensures transparency, tracks progress through milestones, and delivers measurable results.
 
-2. Objectives
-- Provide users with a clear view of their pension accounts, balances, and investment performance.
-- Help users understand how their money is being invested and potential long-term outcomes.
-- Offer personalized recommendations based on user risk profile, age, and goals.
-- Educate users about investment options, risk tolerance, and diversification.
+The platform integrates blockchain technology for transparent transactions, secure identity verification, and tracking of capital use, building a trust-based network between investors and restaurant owners while aligning with decentralized finance principles.
+
+2. Problem Statement
+Small and startup restaurants face significant challenges securing investment for business growth. Traditional financial institutions require strong credit histories, collateral, or detailed financial tracks that most small businesses cannot provide. In Korea specifically, banks prioritize mortgage and household lending over small businesses - in 2024, Korean banks faced $1.8 billion USD in penalties for failing SME loan quotas, revealing structural inconsistency between stated support and actual lending behavior. This funding gap forces reliance on third-party lenders and creates business viability risks - only 10% of medium-sized companies reported financial improvement, with many facing illiquidity risks.
 
 3. Target Users
-- Individuals who contribute to pension funds but lack financial literacy.
-- Young professionals starting to save for retirement.
-- Users nearing retirement who want to review or adjust their investment strategy.
+- Small restaurants and food startups seeking operational funding
+- Local community investors interested in supporting neighborhood businesses
+- Restaurant owners needing capital for expansion, equipment upgrades, or recovery
+- Impact investors focused on local economic development
 
 4. Core Features
-- User Authentication: Secure login and profile management.
-- Dashboard: Overview of total balance, contributions, growth over time, and risk profile.
-- Portfolio Visualization: Charts showing allocation, performance history, and diversification.
-- Risk Profiling: Questionnaire to assess risk tolerance and create personalized strategies.
-- Recommendations Engine: Suggest funds or allocation adjustments based on user profile.
-- Educational Resources: Guides and explanations on investment strategies, risk, and retirement planning.
+- User Authentication: Secure login for both restaurants (fundraisers) and investors with KYC verification
+- Restaurant Dashboard: Campaign creation, funding progress tracking, milestone management, and investor communications
+- Investor Dashboard: Browse campaigns, investment portfolio overview, returns tracking, and restaurant performance monitoring
+- Campaign Listings: Detailed restaurant profiles with business plans, funding goals, use of funds breakdown, and risk assessments
+- Milestone Tracking: Transparent progress updates tied to fund disbursement stages
+- Blockchain Integration: Immutable transaction records, smart contracts for fund release, and transparent capital usage tracking
+- Investment Tools: Minimum investment thresholds, diversification recommendations, and risk profiling
+- Verification System: Restaurant validation process including business registration, financial health checks, and operational history
+- Community Features: Investor reviews, restaurant updates, and success stories
 
 5. Tech Stack
 - Backend: Node.js + Express
-- Database: PostgreSQL
+- Database: PostgreSQL (with potential blockchain integration layer)
 - Frontend: EJS (server-side rendering) + Vanilla JavaScript
+- Blockchain: Smart contracts for fund management and transparency
 - Hosting: Railway (backend) + Vercel (frontend)
 
 6. Future Enhancements
-- AI-based recommendation engine for more personalized investment strategies.
-- Integration with real pension fund APIs for live account syncing.
-- Notifications for performance updates or investment opportunities.
-- Comparison tools for different fund options.
+- AI-based restaurant viability assessment and investment recommendations
+- Integration with payment processors and banking APIs for seamless transactions
+- Mobile app for iOS and Android
+- Secondary market for investment share trading
+- Rewards program for active investors
+- Partnership with restaurant associations and culinary schools
+- Expansion to other food industry segments (food trucks, catering, etc.)
 
 7. Success Metrics
-- User engagement (time spent on dashboard, number of visits).
-- Number of users completing the risk profile questionnaire.
-- Conversion rate from recommendations to portfolio changes.
-- User satisfaction ratings and retention.
+- Number of restaurants successfully funded
+- Total capital raised through the platform
+- Investor retention and repeat investment rate
+- Restaurant success rate post-funding
+- Average time to reach funding goals
+- User satisfaction ratings from both restaurants and investors
+- Transaction transparency score and blockchain verification rate

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= typeof title !== 'undefined' ? title + ' - ' : '' %>Pension Investment App</title>
+    <title><%= typeof title !== 'undefined' ? title + ' - ' : '' %>TastyFund</title>
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -12,14 +12,17 @@
     <nav class="navbar">
         <div class="container">
             <div class="nav-brand">
-                <a href="/dashboard"><i class="fas fa-piggy-bank"></i> Pension App</a>
+                <a href="/dashboard">
+                    <img src="/images/tastyfund-logo.png" alt="TastyFund Logo" class="logo">
+                    <span>TastyFund</span>
+                </a>
             </div>
             <ul class="nav-menu">
                 <li><a href="/dashboard"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> Portfolio</a></li>
-                <li><a href="/risk/questionnaire"><i class="fas fa-clipboard-list"></i> Risk Profile</a></li>
-                <li><a href="/recommendations"><i class="fas fa-lightbulb"></i> Recommendations</a></li>
-                <li><a href="/education"><i class="fas fa-book"></i> Learn</a></li>
+                <li><a href="/campaigns"><i class="fas fa-store"></i> Campaigns</a></li>
+                <li><a href="/portfolio"><i class="fas fa-briefcase"></i> My Investments</a></li>
+                <li><a href="/restaurants"><i class="fas fa-utensils"></i> Restaurants</a></li>
+                <li><a href="/blockchain"><i class="fas fa-link"></i> Blockchain</a></li>
                 <li class="user-menu">
                     <a href="#"><i class="fas fa-user-circle"></i> <%= user.firstName %></a>
                     <div class="dropdown">
@@ -37,8 +40,8 @@
 
     <footer class="footer">
         <div class="container">
-            <p>&copy; 2025 Pension Investment App. All rights reserved.</p>
-            <p>Helping you secure your financial future.</p>
+            <p>&copy; 2025 TastyFund. All rights reserved.</p>
+            <p>Connecting restaurants with investors for a tastier future.</p>
         </div>
     </footer>
 
