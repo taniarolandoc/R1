@@ -692,3 +692,161 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* Cards Grid & Campaign Cards */
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+}
+
+.card-media {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+}
+
+.card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.card-body {
+    padding: 1rem 1.25rem 1.25rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    color: var(--dark-color);
+    margin-bottom: .75rem;
+}
+
+/* Progress Bar */
+.progress {
+    height: 10px;
+    background: #eef2ff;
+    border-radius: 999px;
+    overflow: hidden;
+    margin: .5rem 0 .75rem;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), #6366f1);
+}
+
+.campaign-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: .9rem;
+    color: var(--text-light);
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    font-size: .75rem;
+    font-weight: 600;
+    padding: .35rem .6rem;
+    border-radius: 999px;
+}
+
+.badge-verified {
+    position: absolute;
+    top: .75rem;
+    left: .75rem;
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #86efac;
+}
+
+/* Footer (Dark) */
+.footer-dark {
+    background: #0f172a;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.list-unstyled {
+    list-style: none;
+    padding: 0;
+}
+
+.social-links a {
+    color: white;
+    margin-right: .75rem;
+    font-size: 1.1rem;
+}
+
+.mt-sm { margin-top: .75rem; }
+
+/* Landing: center logo option */
+.landing-nav .nav-brand { margin: 0 auto; }
+
+/* Quick Actions */
+.quick-actions {
+    padding: 3rem 0;
+    background: #f8fafc;
+}
+
+.quick-actions .cards-grid .card {
+    text-decoration: none;
+    color: inherit;
+}
+
+.quick-actions .card .card-body {
+    display: grid;
+    gap: .5rem;
+}
+
+.card-cta {
+    border: 2px solid #e5e7eb;
+}
+
+/* Trust Section */
+.trust {
+    padding: 3rem 0;
+    background: white;
+    text-align: center;
+}
+
+.partners {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    justify-content: center;
+    opacity: .8;
+}
+
+/* Animations */
+.fade-in {
+    animation: fadeIn .6s ease both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}

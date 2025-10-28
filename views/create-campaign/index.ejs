@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - TastyFund</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <a href="/"><img src="/images/tastyfund-logo.png" alt="TastyFund Logo" class="logo"><span>TastyFund</span></a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="/campaigns">Campaigns</a></li>
+        <li><a href="/investor-dashboard">Investor Dashboard</a></li>
+        <li><a href="/create-campaign" class="btn btn-primary">Start a Campaign</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>Start a Campaign</h1>
+        <p>Create your restaurant fundraising campaign (demo form).</p>
+      </div>
+
+      <div class="questionnaire-card">
+        <form class="auth-form">
+          <div class="form-group">
+            <label>Restaurant Name</label>
+            <input type="text" placeholder="e.g., Urban Bean Coffee Roasters" required>
+          </div>
+          <div class="form-group">
+            <label>Funding Goal (USD)</label>
+            <input type="number" min="1000" step="100" placeholder="e.g., 30000" required>
+          </div>
+          <div class="form-group">
+            <label>Use of Funds</label>
+            <textarea rows="4" placeholder="Describe how funds will be used" required></textarea>
+          </div>
+          <div class="form-group">
+            <label>Cover Image URL</label>
+            <input type="url" placeholder="https://..." required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a href="/campaigns" class="btn btn-secondary">Cancel</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer footer-dark">
+    <div class="container">
+      <p>&copy; 2025 TastyFund. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>
