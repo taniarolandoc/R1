@@ -10,6 +10,7 @@
     <style>
         /* Additional inline styles for preview */
         :root { --primary-color: #1e3a8a; --accent-yellow: #f59e0b; }
+        .container { max-width: 1100px; padding: 0 16px; margin: 0 auto; }
         body.landing-page {
             background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 100%);
         }
@@ -22,21 +23,21 @@
         .landing-nav .nav-brand { margin: 0 !important; }
         
         .hero {
-            padding: 100px 0;
+            padding: 48px 0;
             text-align: center;
             color: white;
         }
         
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .hero-subtitle {
-            font-size: 1.25rem;
-            margin-bottom: 2rem;
+            font-size: 1rem;
+            margin-bottom: 1rem;
             opacity: 0.95;
             max-width: 700px;
             margin-left: auto;
@@ -50,35 +51,28 @@
             flex-wrap: wrap;
         }
         
-        .features {
-            background: white;
-            padding: 80px 0;
-        }
+        .features { background: white; padding: 24px 0; }
         
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
+            font-size: 1.75rem;
+            margin-bottom: 1rem;
             color: var(--dark-color);
         }
         .section-title::after {
             content: '';
             display: block;
-            width: 64px;
+            width: 48px;
             height: 4px;
             margin: 12px auto 0;
             background: var(--accent-yellow);
             border-radius: 2px;
         }
         
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
         
         .feature-card {
-            padding: 2rem;
+            padding: 1rem;
             background: var(--light-color);
             border-radius: 12px;
             transition: transform 0.3s, box-shadow 0.3s;
@@ -110,8 +104,8 @@
         }
         
         .feature-icon {
-            width: 80px;
-            height: 80px;
+            width: 48px;
+            height: 48px;
             margin: 0 auto 1rem;
             background: var(--primary-color);
             color: #ffffff;
@@ -119,25 +113,25 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.25rem;
             box-shadow: 0 6px 16px rgba(0,0,0,0.12);
             border: 3px solid var(--accent-yellow);
         }
         
         .stat-icon {
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: white;
             border: 3px solid var(--accent-yellow);
         }
         
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             margin-bottom: 1rem;
             color: var(--dark-color);
         }
@@ -147,20 +141,15 @@
             line-height: 1.6;
         }
         
-        .cta {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 100%);
-            padding: 80px 0;
-            text-align: center;
-            color: white;
-        }
+        .cta { background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 100%); padding: 40px 0; text-align: center; color: white; }
         
         .cta h2 {
-            font-size: 2.5rem;
+            font-size: 2rem;
             margin-bottom: 1rem;
         }
         
         .cta p {
-            font-size: 1.25rem;
+            font-size: 1rem;
             margin-bottom: 2rem;
             opacity: 0.95;
         }
@@ -179,7 +168,7 @@
         
         .btn {
             display: inline-block;
-            padding: 0.75rem 1.5rem;
+            padding: 0.5rem 1rem;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
@@ -211,10 +200,7 @@
             color: #0b1f4b;
         }
         
-        .btn-large {
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-        }
+        .btn-large { padding: 0.6rem 1rem; font-size: 1rem; }
 
         /* White outline button (for CTA box) */
         .btn-outline-white {
@@ -242,8 +228,8 @@
         }
         
         .nav-brand .logo {
-            height: 60px;
-            width: 60px;
+            height: 48px;
+            width: 48px;
             border-radius: 50%;
             object-fit: cover;
         }
@@ -269,10 +255,10 @@
         
         .modal-content {
             background-color: white;
-            padding: 2.5rem;
+            padding: 1.5rem;
             border-radius: 16px;
             max-width: 600px;
-            width: 90%;
+            width: 92%;
             max-height: 80vh;
             overflow-y: auto;
             position: relative;
