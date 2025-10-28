@@ -64,6 +64,11 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+// Static preview route
+app.get('/preview', (req, res) => {
+    res.sendFile(path.join(__dirname, 'preview.html'));
+});
+
 // 404 handler
 app.use((req, res) => {
     res.status(404).render('404');
