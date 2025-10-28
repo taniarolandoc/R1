@@ -61,7 +61,7 @@ app.get('/', (req, res) => {
     if (req.session.user) {
         return res.redirect('/dashboard');
     }
-    res.render('index');
+    res.sendFile(path.join(__dirname, 'preview.html'));
 });
 
 // Static preview route
