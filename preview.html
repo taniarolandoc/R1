@@ -215,7 +215,19 @@
             padding: 1rem 2rem;
             font-size: 1.1rem;
         }
-        
+
+        /* White outline button (for CTA box) */
+        .btn-outline-white {
+            background: transparent;
+            color: #ffffff;
+            border: 2px solid #ffffff;
+        }
+        .btn-outline-white:hover {
+            background: rgba(255,255,255,0.12);
+            color: #ffffff;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
         /* Yellow button variant for readability */
         .btn-yellow {
             background: var(--accent-yellow);
@@ -580,7 +592,7 @@
         <div class="container">
             <h2>Ready to Support Local Restaurants?</h2>
             <p>Join investors and restaurants building stronger communities through transparent crowdfunding.</p>
-            <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-primary btn-large">Create Your Free Account</a>
+            <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-outline-white btn-large">Create Your Free Account</a>
         </div>
     </section>
 
