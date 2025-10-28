@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - TastyFund</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <a href="/"><img src="/images/tastyfund-logo.png" alt="TastyFund Logo" class="logo"><span>TastyFund</span></a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="/campaigns">Campaigns</a></li>
+        <li><a href="/investor-dashboard" class="active">Investor Dashboard</a></li>
+        <li><a href="/create-campaign" class="btn btn-primary">Start a Campaign</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>Investor Dashboard</h1>
+        <p>Overview of your crowdfunding performance (demo data).</p>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-wallet"></i></div>
+          <div class="stat-content">
+            <h3>Total Invested</h3>
+            <p class="stat-value">$<%= metrics.totalInvested.toLocaleString() %></p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-percentage"></i></div>
+          <div class="stat-content">
+            <h3>ROI</h3>
+            <p class="stat-value positive"><%= metrics.roi %>%</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="fas fa-hand-holding-heart"></i></div>
+          <div class="stat-content">
+            <h3>Campaigns Supported</h3>
+            <p class="stat-value"><%= metrics.campaignsSupported %></p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon orange"><i class="fas fa-badge-check"></i></div>
+          <div class="stat-content">
+            <h3>Verified Milestones</h3>
+            <p class="stat-value"><%= metrics.verifiedMilestones %></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-card large" style="height:360px">
+        <div class="card-header">
+          <h2><i class="fas fa-chart-line"></i> Portfolio Performance</h2>
+        </div>
+        <div class="card-body">
+          <canvas id="perfChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer footer-dark">
+    <div class="container">
+      <p>&copy; 2025 TastyFund. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    const ctx = document.getElementById('perfChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: <%= JSON.stringify(performance.map(p => p.label)) %>,
+        datasets: [{
+          label: 'Value',
+          data: <%= JSON.stringify(performance.map(p => p.value)) %>,
+          borderColor: '#4f46e5',
+          backgroundColor: 'rgba(79,70,229,0.1)',
+          fill: true,
+          tension: 0.35
+        }]
+      },
+      options: { plugins: { legend: { display: false } }, responsive: true, maintainAspectRatio: false }
+    });
+  </script>
+  <script src="/js/main.js"></script>
+</body>
+</html>

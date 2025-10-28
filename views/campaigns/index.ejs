@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %> - TastyFund</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <div class="nav-brand">
+        <a href="/"><img src="/images/tastyfund-logo.png" alt="TastyFund Logo" class="logo"><span>TastyFund</span></a>
+      </div>
+      <ul class="nav-menu">
+        <li><a href="/campaigns" class="active">Campaigns</a></li>
+        <li><a href="/investor-dashboard">Investor Dashboard</a></li>
+        <li><a href="/create-campaign" class="btn btn-primary">Start a Campaign</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="page-header">
+        <h1>Active Restaurant Campaigns</h1>
+        <p>Discover and support verified local restaurant projects.</p>
+      </div>
+
+      <div class="cards-grid">
+        <% campaigns.forEach(c => { const pct = Math.round((c.raised / c.goal) * 100); %>
+          <a class="card campaign-card" href="#">
+            <div class="card-media">
+              <img src="<%= c.image %>" alt="<%= c.name %>">
+              <% if (c.verified) { %>
+                <span class="badge badge-verified"><i class="fas fa-badge-check"></i> Verified</span>
+              <% } %>
+            </div>
+            <div class="card-body">
+              <h3 class="card-title"><%= c.name %></h3>
+              <div class="progress">
+                <div class="progress-bar" style="width: <%= pct %>%;"></div>
+              </div>
+              <div class="campaign-stats">
+                <span><strong><%= pct %>%</strong> funded</span>
+                <span><strong>$<%= c.raised.toLocaleString() %></strong> / $<%= c.goal.toLocaleString() %></span>
+                <span><i class="fas fa-users"></i> <%= c.investors %></span>
+              </div>
+            </div>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer footer-dark">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="nav-brand">
+            <img src="/images/tastyfund-logo.png" alt="TastyFund Logo" class="logo">
+            <span>TastyFund</span>
+          </div>
+          <p>Connecting restaurants with investors for a tastier future.</p>
+        </div>
+        <div>
+          <h4>Company</h4>
+          <ul class="list-unstyled">
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Partners</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Follow</h4>
+          <div class="social-links">
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="mt-sm">&copy; 2025 TastyFund. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+</body>
+</html>

@@ -42,6 +42,9 @@ const portfolioRoutes = require('./routes/portfolio');
 const riskRoutes = require('./routes/risk');
 const recommendationsRoutes = require('./routes/recommendations');
 const educationRoutes = require('./routes/education');
+const campaignsRoutes = require('./routes/campaigns');
+const investorRoutes = require('./routes/investor');
+const createCampaignRoutes = require('./routes/createCampaign');
 
 app.use('/auth', authRoutes);
 app.use('/dashboard', dashboardRoutes);
@@ -49,6 +52,9 @@ app.use('/portfolio', portfolioRoutes);
 app.use('/risk', riskRoutes);
 app.use('/recommendations', recommendationsRoutes);
 app.use('/education', educationRoutes);
+app.use('/campaigns', campaignsRoutes);
+app.use('/investor-dashboard', investorRoutes);
+app.use('/create-campaign', createCampaignRoutes);
 
 // Home route
 app.get('/', (req, res) => {

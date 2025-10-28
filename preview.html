@@ -8,14 +8,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Additional inline styles for preview */
+        :root { --primary-color: #1e3a8a; --accent-yellow: #f59e0b; }
         body.landing-page {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 100%);
         }
         
         .landing-nav {
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
         }
+        /* Override: align logo to the left */
+        .landing-nav .nav-brand { margin: 0 !important; }
         
         .hero {
             padding: 100px 0;
@@ -57,6 +60,15 @@
             margin-bottom: 3rem;
             color: var(--dark-color);
         }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 64px;
+            height: 4px;
+            margin: 12px auto 0;
+            background: var(--accent-yellow);
+            border-radius: 2px;
+        }
         
         .features-grid {
             display: grid;
@@ -97,9 +109,30 @@
         }
         
         .feature-icon {
-            font-size: 3rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: var(--primary-color);
+            color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            border: 3px solid var(--accent-yellow);
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            border: 3px solid var(--accent-yellow);
         }
         
         .feature-card h3 {
@@ -114,7 +147,7 @@
         }
         
         .cta {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-color) 100%);
             padding: 80px 0;
             text-align: center;
             color: white;
@@ -166,19 +199,33 @@
         }
         
         .btn-secondary {
-            background: white;
-            color: var(--primary-color);
-            border: 2px solid white;
+            background: #93c5fd; /* light blue for readability */
+            color: #0b1f4b; /* dark text for contrast */
+            border: 2px solid #93c5fd;
         }
         
         .btn-secondary:hover {
-            background: transparent;
-            color: white;
+            background: #60a5fa;
+            border-color: #60a5fa;
+            color: #0b1f4b;
         }
         
         .btn-large {
             padding: 1rem 2rem;
             font-size: 1.1rem;
+        }
+        
+        /* Yellow button variant for readability */
+        .btn-yellow {
+            background: var(--accent-yellow);
+            color: #111827; /* near-black for contrast */
+            border: 2px solid var(--accent-yellow);
+        }
+        .btn-yellow:hover {
+            background: #d97706; /* darker amber */
+            border-color: #d97706;
+            color: #111827;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35);
         }
         
         .nav-brand .logo {
@@ -325,13 +372,13 @@
         <div class="container">
             <div class="nav-brand">
                 <a href="/">
-                    <img src="tastyfund-logo.png" alt="TastyFund Logo" class="logo">
+                    <img src="public/images/tastyfund-logo.png" alt="TastyFund Logo" class="logo">
                     <span>TastyFund</span>
                 </a>
             </div>
             <ul class="nav-menu">
                 <li><a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')">Login</a></li>
-                <li><a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-primary">Get Started</a></li>
+                <li><a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-yellow">Get Started</a></li>
             </ul>
         </div>
     </nav>
@@ -345,6 +392,135 @@
                     <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-primary btn-large">Start Free Today</a>
                     <a href="#" onclick="alert('Full app requires Node.js server. See QUICK_START.md')" class="btn btn-secondary btn-large">Sign In</a>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campaigns Preview -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Active Campaigns</h2>
+            <div class="cards-grid">
+                <a class="card campaign-card" href="#" onclick="alert('Open /campaigns in the running app')">
+                    <div class="card-media">
+                        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop" alt="Blue Ocean Sushi Bar">
+                        <span class="badge badge-verified"><i class="fas fa-circle-check"></i> Verified</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Blue Ocean Sushi Bar</h3>
+                        <div class="progress"><div class="progress-bar" style="width: 65%;"></div></div>
+                        <div class="campaign-stats">
+                            <span><strong>65%</strong> funded</span>
+                            <span><strong>$32,500</strong> / $50,000</span>
+                            <span><i class="fas fa-users"></i> 128</span>
+                        </div>
+                    </div>
+                </a>
+                <a class="card campaign-card" href="#" onclick="alert('Open /campaigns in the running app')">
+                    <div class="card-media">
+                        <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=1200&auto=format&fit=crop" alt="Urban Bean Coffee Roasters">
+                        <span class="badge badge-verified"><i class="fas fa-badge-check"></i> Verified</span>
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Urban Bean Coffee Roasters</h3>
+                        <div class="progress"><div class="progress-bar" style="width: 62%;"></div></div>
+                        <div class="campaign-stats">
+                            <span><strong>62%</strong> funded</span>
+                            <span><strong>$18,450</strong> / $30,000</span>
+                            <span><i class="fas fa-users"></i> 92</span>
+                        </div>
+                    </div>
+                </a>
+                <a class="card campaign-card" href="#" onclick="alert('Open /campaigns in the running app')">
+                    <div class="card-media">
+                        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?q=80&w=1200&auto=format&fit=crop" alt="Green Bowl Vegan Kitchen">
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">Green Bowl Vegan Kitchen</h3>
+                        <div class="progress"><div class="progress-bar" style="width: 24%;"></div></div>
+                        <div class="campaign-stats">
+                            <span><strong>24%</strong> funded</span>
+                            <span><strong>$9,500</strong> / $40,000</span>
+                            <span><i class="fas fa-users"></i> 44</span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investor Preview Metrics -->
+    <section class="features" style="padding-top:40px">
+        <div class="container">
+            <h2 class="section-title">Investor Snapshot</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon blue"><i class="fas fa-wallet"></i></div>
+                    <div class="stat-content">
+                        <h3>Total Invested</h3>
+                        <p class="stat-value">$42,500</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon green"><i class="fas fa-percentage"></i></div>
+                    <div class="stat-content">
+                        <h3>ROI</h3>
+                        <p class="stat-value positive">12.6%</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon purple"><i class="fas fa-hand-holding-heart"></i></div>
+                    <div class="stat-content">
+                        <h3>Campaigns Supported</h3>
+                        <p class="stat-value">7</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon orange"><i class="fas fa-badge-check"></i></div>
+                    <div class="stat-content">
+                        <h3>Verified Milestones</h3>
+                        <p class="stat-value">18</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Actions -->
+    <section class="quick-actions">
+        <div class="container">
+            <div class="cards-grid">
+                <a class="card card-cta" href="#" onclick="alert('Open /campaigns in the running app')">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="fas fa-store"></i> Explore Campaigns</h3>
+                        <p>Browse verified restaurants and back your favorites.</p>
+                    </div>
+                </a>
+                <a class="card card-cta" href="#" onclick="alert('Open /investor-dashboard in the running app')">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="fas fa-chart-line"></i> Investor Dashboard</h3>
+                        <p>View portfolio performance and returns.</p>
+                    </div>
+                </a>
+                <a class="card card-cta" href="#" onclick="alert('Open /create-campaign in the running app')">
+                    <div class="card-body">
+                        <h3 class="card-title"><i class="fas fa-rocket"></i> Start a Campaign</h3>
+                        <p>Launch your restaurant’s funding round.</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust & Partners -->
+    <section class="trust">
+        <div class="container">
+            <h2 class="section-title" style="margin-bottom:1.5rem">Trusted by Restaurants and Investors</h2>
+            <div class="partners">
+                <img src="https://dummyimage.com/120x40/000/fff&text=FINTECH+LAB" alt="Partner 1">
+                <img src="https://dummyimage.com/120x40/000/fff&text=BLOCKCHAIN+X" alt="Partner 2">
+                <img src="https://dummyimage.com/120x40/000/fff&text=KITCHEN+CO" alt="Partner 3">
+                <img src="https://dummyimage.com/120x40/000/fff&text=INVEST+HUB" alt="Partner 4">
             </div>
         </div>
     </section>
@@ -383,7 +559,7 @@
                 </div>
                 <div class="feature-card" onclick="openModal('verification')">
                     <div class="feature-icon">
-                        <i class="fas fa-shield-check"></i>
+                        <i class="fas fa-circle-check"></i>
                     </div>
                     <h3>Verified Restaurants</h3>
                     <p>All restaurants undergo business registration, financial health checks, and operational history validation.</p>
